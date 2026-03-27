@@ -610,15 +610,13 @@
         paidTotal = paidProducts.reduce((sum, p) => sum + (p.price * p.qty), 0);
       }
       
-      currentCart.paid = paidProducts;
+currentCart.paid = paidProducts;
       currentCart.gifts = giftsData;
       
-      let optionalGiftEquivalentBoxes = 0;
-      let hasOptionalGifts = false;
-      
-      if (equivalentBoxes === giftThreshold && giftThreshold > 0) {
-        optionalGiftEquivalentBoxes = maxGiftEquivalentBoxes;
-        hasOptionalGifts = true;
+      // 動態計算剩餘可選的贈品盒數
+      let remainingGifts = 0;
+      if (giftThreshold > 0) {
+        remainingGifts = maxGiftEquivalentBoxes - autoGiftEquivalentBoxes;
       }
       
       const orderSummary = document.getElementById('orderSummary');
@@ -670,16 +668,12 @@
           giftProductsSection.classList.add('hidden');
         }
         
-        const giftReminder = document.getElementById('giftReminder');
+const giftReminder = document.getElementById('giftReminder');
         const giftReminderText = document.getElementById('giftReminderText');
         
-        if (hasOptionalGifts) {
+        if (remainingGifts > 0) {
           giftReminder.classList.remove('hidden');
-          if (optionalGiftEquivalentBoxes === 1) {
-            giftReminderText.textContent = `您還可以選擇 1 盒作為贈品！`;
-          } else if (optionalGiftEquivalentBoxes === 2) {
-            giftReminderText.textContent = `您還可以選擇 2 盒作為贈品！`;
-          }
+          giftReminderText.textContent = `您還可以再選 ${remainingGifts} 盒作為贈品！`;
         } else {
           giftReminder.classList.add('hidden');
         }
