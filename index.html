@@ -463,7 +463,7 @@
    </footer>
   </div>
   
-  <script>
+<script>
     const taiwanData = {
       "台北市": ["中正區", "大同區", "中山區", "松山區", "大安區", "萬華區", "信義區", "士林區", "北投區", "內湖區", "南港區", "文山區"],
       "新北市": ["板橋區", "三重區", "中和區", "永和區", "新莊區", "新店區", "土城區", "蘆洲區", "樹林區", "汐止區", "鶯歌區", "三峽區", "淡水區", "瑞芳區", "五股區", "泰山區", "林口區", "深坑區", "石碇區", "坪林區", "三芝區", "石門區", "八里區", "平溪區", "雙溪區", "貢寮區", "金山區", "萬里區", "烏來區"],
@@ -539,6 +539,7 @@
       calculateTotal();
     }
 
+    // 徹底清除袋裝邏輯的計算函式
     function calculateTotal() {
       let boxCount = 0;
       let subtotal = 0;
@@ -557,7 +558,7 @@
             name: productNames[productId],
             price: price,
             qty: qty,
-            type: 'box' // 現在全部都是盒裝
+            type: 'box' 
           });
         }
       });
@@ -610,7 +611,7 @@
         paidTotal = paidProducts.reduce((sum, p) => sum + (p.price * p.qty), 0);
       }
       
-currentCart.paid = paidProducts;
+      currentCart.paid = paidProducts;
       currentCart.gifts = giftsData;
       
       // 動態計算剩餘可選的贈品盒數
@@ -668,7 +669,7 @@ currentCart.paid = paidProducts;
           giftProductsSection.classList.add('hidden');
         }
         
-const giftReminder = document.getElementById('giftReminder');
+        const giftReminder = document.getElementById('giftReminder');
         const giftReminderText = document.getElementById('giftReminderText');
         
         if (remainingGifts > 0) {
@@ -720,7 +721,6 @@ const giftReminder = document.getElementById('giftReminder');
       updateSubmitButton(selectedProducts.length > 0);
     }
 
-    // Allocate gifts from cheapest products
     function allocateGiftsFromCheapest(products, boxesToAllocate) {
       const gifts = [];
       let remaining = boxesToAllocate;
@@ -860,17 +860,18 @@ const giftReminder = document.getElementById('giftReminder');
         created_at: new Date().toISOString()
       };
       
-// 已經為您的 EmailJS 模板量身打造，100% 完全對齊的變數！
+      try {
+        const equivalentBoxes = document.getElementById('boxCountDisplay').textContent;
         const templateParams = {
             order_id: formData.order_id,
             products_list: productsText || '無',
             gifts_list: giftsText || '無',
-            boxInfo: `總盒數：${equivalentBoxes} 盒\n`, // 順便幫您把總盒數資訊帶入這個多出來的標籤
+            boxInfo: `總盒數：${equivalentBoxes} 盒\n`,
             subtotal: formData.subtotal,
             discount_rate: formData.discount_rate + '折',
-            shipping_fee: formData.shipping_fee, // 模板裡已有寫 NT$，所以這裡只傳數字
+            shipping_fee: formData.shipping_fee,
             total: formData.total,
-            giftInfo: '', // 模板裡多出了這個標籤，先設為空白避免跑版
+            giftInfo: '',
             chair_stand: formData.want_chair_stand === 'yes' ? '需要' : (formData.want_chair_stand === 'no' ? '不需要' : '未達條件'),
             magnetic_stand: formData.want_magnetic_stand === 'yes' ? '需要' : (formData.want_magnetic_stand === 'no' ? '不需要' : '未達條件'),
             payment_method: selectedPaymentMethod === 'transfer' ? '先匯款後發貨' : '貨到付款',
