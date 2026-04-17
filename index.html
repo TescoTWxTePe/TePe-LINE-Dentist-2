@@ -860,26 +860,28 @@ const giftReminder = document.getElementById('giftReminder');
         created_at: new Date().toISOString()
       };
       
-      try {
+// 已經為您的 EmailJS 模板量身打造，100% 完全對齊的變數！
         const templateParams = {
             order_id: formData.order_id,
+            products_list: productsText || '無',
+            gifts_list: giftsText || '無',
+            boxInfo: `總盒數：${equivalentBoxes} 盒\n`, // 順便幫您把總盒數資訊帶入這個多出來的標籤
+            subtotal: formData.subtotal,
+            discount_rate: formData.discount_rate + '折',
+            shipping_fee: formData.shipping_fee, // 模板裡已有寫 NT$，所以這裡只傳數字
+            total: formData.total,
+            giftInfo: '', // 模板裡多出了這個標籤，先設為空白避免跑版
+            chair_stand: formData.want_chair_stand === 'yes' ? '需要' : (formData.want_chair_stand === 'no' ? '不需要' : '未達條件'),
+            magnetic_stand: formData.want_magnetic_stand === 'yes' ? '需要' : (formData.want_magnetic_stand === 'no' ? '不需要' : '未達條件'),
+            payment_method: selectedPaymentMethod === 'transfer' ? '先匯款後發貨' : '貨到付款',
+            invoice_type: formData.invoice_type === 'triplicate' ? '三聯式發票' : '二聯式發票',
+            invoice_title: formData.invoice_title || '無',
+            tax_id: formData.tax_id || '無',
             doctor_name: formData.doctor_name,
             phone: formData.phone,
             email: formData.email, 
             clinic_name: formData.clinic_name,
             full_address: `${formData.city}${formData.district}${formData.address}`,
-            payment_method: selectedPaymentMethod === 'transfer' ? '先匯款後發貨' : '貨到付款',
-            invoice_type: formData.invoice_type === 'triplicate' ? '三聯式發票' : '二聯式發票',
-            invoice_title: formData.invoice_title || '無',
-            tax_id: formData.tax_id || '無',
-            chair_stand: formData.want_chair_stand === 'yes' ? '需要' : (formData.want_chair_stand === 'no' ? '不需要' : '未達條件'),
-            magnetic_stand: formData.want_magnetic_stand === 'yes' ? '需要' : (formData.want_magnetic_stand === 'no' ? '不需要' : '未達條件'),
-            products_list: productsText,
-            gifts_list: giftsText || '無',
-            subtotal: formData.subtotal,
-            discount_rate: formData.discount_rate + '折',
-            shipping_fee: formData.shipping_fee === 0 ? '免運費' : 'NT$ ' + formData.shipping_fee,
-            total: formData.total,
             notes: formData.notes || '無'
         };
 
